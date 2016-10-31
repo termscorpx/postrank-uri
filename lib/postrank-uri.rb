@@ -92,13 +92,13 @@ module PostRank
 
     module_function
 
-    def extract(text)
+    def extract(text, opts = {})
       return [] if !text
       urls = []
       text.to_s.scan(URIREGEX[:valid_url]) do |all, before, url, protocol, domain, path, query|
         # Only extract the URL if the domain is valid
         if PublicSuffix.valid?(domain)
-          url = clean(url)
+          url = clean(url, opts)
           urls.push url.to_s
         end
       end
