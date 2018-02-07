@@ -15,9 +15,9 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "postrank-uri"
 
-  s.add_dependency "addressable",   "~> 2.4"
-  s.add_dependency "public_suffix", "~> 1.4.2"
-  s.add_dependency "nokogiri",      "~> 1.6.1"
+  s.add_dependency "addressable",   ">= 2.3.0", "< 2.6"
+  s.add_dependency "public_suffix", ">= 2.0.0", "< 2.1"
+  s.add_dependency "nokogiri",      ">= 1.6.1", "< 1.9"
 
   s.add_development_dependency "rspec"
 
