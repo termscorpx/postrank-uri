@@ -92,13 +92,13 @@ module PostRank
 
     module_function
 
-    def extract(text)
+    def extract(text, opts = {})
       return [] if !text
       urls = []
       text.to_s.scan(URIREGEX[:valid_url]) do |all, before, url, protocol, domain, path, query|
         # Only extract the URL if the domain is valid
         if PublicSuffix.valid?(domain)
-          url = clean(url)
+          url = clean(url, opts)
           urls.push url.to_s
         end
       end
@@ -137,7 +137,7 @@ module PostRank
     end
 
     def clean(uri, opts = {})
-      uri = normalize(c14n(unescape(uri), opts))
+      uri = normalize(c14n(unescape(uri), opts), opts)
       opts[:raw] ? uri : uri.to_s
     end
 
@@ -148,7 +148,7 @@ module PostRank
     def normalize(uri, opts = {})
       u = parse(uri, opts)
       u.path = u.path.squeeze('/')
-      u.path = u.path.chomp('/') if u.path.size != 1
+      u.path = u.path.chomp('/') if (u.path.size != 1 && !opts[:no_chomp_path])
       u.query = nil if u.query && u.query.empty?
       u.fragment = nil
       u
